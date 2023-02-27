@@ -6,7 +6,6 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [failedRegister, setFailedRegister] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
 
   const handleSubmit = async (event) => {
@@ -27,7 +26,6 @@ export default function Register() {
     } catch (error) {
       console.log(error);
       setFailedRegister(true);
-      setErrorMessage(error.message);
     }
   };
 
@@ -91,7 +89,12 @@ export default function Register() {
         </button>
       </form>
       {failedRegister && (
-        <p>{errorMessage}</p>)}
+        <p
+          data-testid="common_register__element-invalid_register"
+        >
+          Erro ao cadastrar!
+
+        </p>)}
     </div>
 
   );
