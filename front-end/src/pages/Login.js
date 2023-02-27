@@ -19,62 +19,62 @@ export default function Login() {
     } catch (error) {
       setFailedToLogin(true);
     }
-  }
+  };
 
   useEffect(() => {
     setFailedToLogin(true);
-  }, [email, password])
+  }, [email, password]);
 
   const handleEmail = (em) => {
     const emailRegex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
     return emailRegex.test(em);
-  }
-
-  const handlePassword = (password) => {
-    const minLength = 6;
-    return password.length > minLength;
   };
 
+  const handlePassword = (senha) => {
+    const minLength = 6;
+    return senha.length > minLength;
+  };
 
   return (
     <>
       <form>
-        <label>
+        <label htmlFor="email">
           Login
           <input
-            data-testid='common_login__input-email'
-            value={email}
-            onChange={({ target: { value } }) => setEmail(value)}
-            placeholder='email@trybeer.com'
+            data-testid="common_login__input-email"
+            value={ email }
+            onChange={ ({ target: { value } }) => setEmail(value) }
+            placeholder="email@trybeer.com"
           />
         </label>
-        <label>
+        <label htmlFor="senha">
           Senha
           <input
-            data-testid='common_login__input-password'
-            value={password}
-            onChange={({ target: { value } }) => setPassword(value)}
-            placeholder='********'
+            data-testid="common_login__input-password"
+            value={ password }
+            onChange={ ({ target: { value } }) => setPassword(value) }
+            placeholder="********"
           />
         </label>
         <button
-          data-testid='common_login__button-login'
-          type='button'
-          disabled={!(handleEmail(email) && handlePassword(password))}
-          onClick={(event) => login(event)}
+          data-testid="common_login__button-login"
+          type="button"
+          disabled={ !(handleEmail(email) && handlePassword(password)) }
+          onClick={ (event) => login(event) }
         >
           LOGIN
         </button>
         <button
-          data-testid='common_login__button-register'
-          onClick={() => navigate('/register')}
+          data-testid="common_login__button-register"
+          onClick={ () => navigate('/register') }
+          type="button"
         >
           Ainda não tenho conta
         </button>
       </form>
       {
         failedToLogin ?? (
-          <p data-testid='common_login__element-invalid-email'>Email ou senha inválido</p>
+          <p data-testid="common_login__element-invalid-email">Email ou senha inválido</p>
         )
       }
     </>
