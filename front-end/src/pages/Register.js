@@ -1,5 +1,6 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { localStorageSaveItem } from '../services/localStorage';
+import { apiPost } from '../services/requests';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -17,12 +18,8 @@ export default function Register() {
     };
 
     try {
-      const api = axios.create({
-        baseURL: `http://localhost:${process.env.REACT_APP_API_PORT || '3001'}`,
-      });
-
-      const { data } = await api.post('/register', registerInfos);
-      localStorage.setItem('token', data.token);
+      const { token } = await apiPost('/register', registerInfos);
+      localStorageSaveItem('token', token);
     } catch (error) {
       console.log(error);
       setFailedRegister(true);
