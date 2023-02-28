@@ -1,14 +1,16 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { localStorageSaveItem } from '../services/localStorage';
+import { apiPost } from '../services/requests';
 
 export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [failedRegister, setFailedRegister] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Erro ao cadastrar usuário.');
   const [isDisabled, setIsDisabled] = useState(true);
 
-  const handleSubmit = async (event) => {
+  const register = async (event) => {
     event.preventDefault();
     const registerInfos = {
       name,
@@ -17,12 +19,14 @@ export default function Register() {
     };
 
     try {
-      const api = axios.create({
-        baseURL: `http://localhost:${process.env.REACT_APP_API_PORT || '3001'}`,
-      });
+      const STATUS_CREATED = 201;
 
-      const { data } = await api.post('/register', registerInfos);
-      localStorage.setItem('token', data.token);
+      const { data, status } = await apiPost('/register', registerInfos);
+      if (status !== STATUS_CREATED) {
+        setFailedRegister(true);
+        setErrorMessage(data.message);
+      }
+      localStorageSaveItem('token', data.token);
     } catch (error) {
       console.log(error);
       setFailedRegister(true);
@@ -44,8 +48,8 @@ export default function Register() {
   }, [name, email, password]);
 
   return (
-    <div>
-      <form onSubmit={ (event) => handleSubmit(event) }>
+    <main>
+      <form onSubmit={ (event) => register(event) }>
         <label htmlFor="name-input">
           Nome
           <input
@@ -92,10 +96,10 @@ export default function Register() {
         <p
           data-testid="common_register__element-invalid_register"
         >
-          Erro ao cadastrar!
+          {errorMessage}
 
         </p>)}
-    </div>
+    </main>
 
   );
 }
