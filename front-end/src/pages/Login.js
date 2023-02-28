@@ -42,6 +42,7 @@ export default function Login() {
           Login
           <input
             data-testid="common_login__input-email"
+            type="email"
             value={ email }
             onChange={ ({ target: { value } }) => setEmail(value) }
             placeholder="email@trybeer.com"
@@ -51,6 +52,7 @@ export default function Login() {
           Senha
           <input
             data-testid="common_login__input-password"
+            type="password"
             value={ password }
             onChange={ ({ target: { value } }) => setPassword(value) }
             placeholder="********"
