@@ -4,11 +4,17 @@ import PropTypes from 'prop-types';
 import DeliveryContext from './DeliveryContext';
 
 export default function DeliveryProvider({ children }) {
-  const [value, setValue] = useState('');
+  const INITIAL_STATE = {
+    name: 'Nome Da Pessoa Usuária',
+    email: 'email@dominio.com',
+    role: '',
+    token: '',
+  };
+  const [userInfos, setUserInfos] = useState(INITIAL_STATE);
 
   const contextValue = useMemo(() => ({
-    value, setValue,
-  }), []);
+    userInfos, setUserInfos,
+  }), [userInfos]);
 
   return (
     <DeliveryContext.Provider value={ contextValue }>
